@@ -1,11 +1,4 @@
-"""
-db.py  –  MongoDB helpers for the RCB ticket scraper.
 
-Collections
------------
-users       : { chat_id: int, subscribed: bool, joined_at: datetime }
-alert_log   : { url: str, status: str, alerted_at: datetime }
-"""
 
 from datetime import datetime, timezone
 from pymongo import MongoClient, ASCENDING
@@ -20,7 +13,7 @@ _client: MongoClient | None = None
 
 
 def get_db():
-    """Return the database handle, creating the client on first call."""
+ 
     global _client
     
     if _client is None:
@@ -31,7 +24,7 @@ def get_db():
 
 
 def init_db():
-    """Create indexes (idempotent – safe to call on every startup)."""
+  
     db = get_db()
     db.users.create_index("chat_id", unique=True)
     db.alert_log.create_index([("url", ASCENDING), ("alerted_at", ASCENDING)])
@@ -40,10 +33,7 @@ def init_db():
 # ── User management ───────────────────────────────────────────────────────────
 
 def add_user(chat_id: int) -> bool:
-    """
-    Subscribe a user.  Returns True if they are *newly* added, False if they
-    were already in the collection (re-subscribe sets subscribed=True).
-    """
+   
     db = get_db()
     existing = db.users.find_one({"chat_id": chat_id})
 
@@ -64,10 +54,7 @@ def add_user(chat_id: int) -> bool:
 
 
 def remove_user(chat_id: int) -> bool:
-    """
-    Unsubscribe a user (soft-delete – keeps the document).
-    Returns True if the user was found and updated.
-    """
+    
     db = get_db()
     result = db.users.update_one(
         {"chat_id": chat_id},
@@ -77,20 +64,20 @@ def remove_user(chat_id: int) -> bool:
 
 
 def get_subscribed_ids() -> list[int]:
-    """Return all chat_ids that are currently subscribed."""
+   
     db = get_db()
     return [doc["chat_id"] for doc in db.users.find({"subscribed": True}, {"chat_id": 1})]
 
 
 def user_count() -> int:
-    """Return the number of active subscribers."""
+ 
     return get_db().users.count_documents({"subscribed": True})
 
 
 # ── Alert log ─────────────────────────────────────────────────────────────────
 
 def log_alert(url: str, status: str):
-    """Persist an alert event so we can avoid duplicate broadcasts."""
+    
     get_db().alert_log.insert_one({
         "url":        url,
         "status":     status,
@@ -99,10 +86,7 @@ def log_alert(url: str, status: str):
 
 
 def was_alert_sent(url: str) -> bool:
-    """
-    Return True if an alert for this URL has already been logged
-    *and* no CLOSED/UNKNOWN event has been logged since.
-    """
+    
     db = get_db()
     last = db.alert_log.find_one(
         {"url": url},
