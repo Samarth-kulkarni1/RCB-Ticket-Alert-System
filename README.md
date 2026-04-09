@@ -1,15 +1,47 @@
-Never miss RCB tickets again! This project is a Telegram bot that scrapes the official RCB website for ticket availability and sends instant alerts to subscribers. Perfect for cricket fans and a fun automation project for developers.
+# RCB Ticket Notifier Bot
 
-🚀 Features
-Real-time ticket monitoring from official RCB websites
-Instant notifications via Telegram Bot API
-Persistent subscriber storage using MongoDB Atlas
-Duplicate alert prevention with alert logs
-Deployed on Railway for 24/7 uptime
-Fully modular and ready for future upgrades
-⚙️ Tech Stack
-Python 3.12+
-BeautifulSoup & Requests – web scraping
-MongoDB Atlas – persistent database
-Telegram Bot API – subscriber notifications
-Railway – cloud deployment
+t.me/Rcb_tickettt_alertt_bot
+
+
+
+**Never miss RCB tickets again!** This Telegram bot alerts subscribers instantly the moment tickets go live.  
+
+---
+
+## Features
+
+- Real-time monitoring of RCB official websites  
+- Instant Telegram notifications for subscribers  
+- Persistent user & alert storage with **MongoDB Atlas**  
+- Duplicate alert prevention  
+- 24/7 cloud deployment on **Railway**  
+- Modular design ready for future improvements  
+
+---
+
+## 🖥 Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Scraping  | Python + BeautifulSoup + Requests |
+| Database  | MongoDB Atlas |
+| Bot       | Telegram Bot API |
+| Deployment| Railway |
+
+---
+
+
+
+
+
+
+
+---
+
+
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/YourUsername/rcb-ticket-bot.git
+cd rcb-ticket-bot
