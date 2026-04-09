@@ -4,9 +4,9 @@ from datetime import datetime, timezone
 from pymongo import MongoClient, ASCENDING
 from pymongo.errors import DuplicateKeyError
 
-# ── Connection ────────────────────────────────────────────────────────────────
 
-MONGO_URI = "mongodb://localhost:27017"   # override via env-var if needed
+
+MONGO_URI = "mongodb://localhost:27017"   
 DB_NAME   = "rcb_scraper"
 
 _client: MongoClient | None = None
@@ -30,7 +30,7 @@ def init_db():
     db.alert_log.create_index([("url", ASCENDING), ("alerted_at", ASCENDING)])
 
 
-# ── User management ───────────────────────────────────────────────────────────
+
 
 def add_user(chat_id: int) -> bool:
    
@@ -50,7 +50,7 @@ def add_user(chat_id: int) -> bool:
             {"chat_id": chat_id},
             {"$set": {"subscribed": True}},
         )
-    return False      # already existed
+    return False      
 
 
 def remove_user(chat_id: int) -> bool:
@@ -74,7 +74,6 @@ def user_count() -> int:
     return get_db().users.count_documents({"subscribed": True})
 
 
-# ── Alert log ─────────────────────────────────────────────────────────────────
 
 def log_alert(url: str, status: str):
     
